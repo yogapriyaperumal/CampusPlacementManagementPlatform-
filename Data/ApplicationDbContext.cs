@@ -14,6 +14,8 @@ namespace CampusPlacementManagementPlatform.Data
         }
         public DbSet<College> Colleges { get; set; }
 
+        public DbSet<PlacementOfficer> PlacementOfficers { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -44,6 +46,31 @@ namespace CampusPlacementManagementPlatform.Data
                 entity.Property(c => c.Address)
                       .IsRequired()
                       .HasMaxLength(500);
+            });
+            builder.Entity<PlacementOfficer>(entity =>
+            {
+                entity.HasKey(p => p.PlacementOfficerId);
+
+                // One Identity user can have only one officer profile.
+                entity.HasOne(p => p.User)
+                      .WithOne()
+                      .HasForeignKey<PlacementOfficer>(p => p.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(p => p.UserId)
+                      .IsUnique();
+
+                // One college can have multiple placement officers.
+                entity.HasOne(p => p.College)
+                      .WithMany()
+                      .HasForeignKey(p => p.CollegeId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // Stores the SuperAdmin who approved the officer.
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(p => p.ApprovedBy)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
         }
     }

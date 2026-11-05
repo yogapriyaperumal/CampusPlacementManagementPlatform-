@@ -166,3 +166,4 @@ C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlace
 C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\CampusPlacementManagementPlatform.pdb
 C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\CampusPlacementManagementPlatform.genruntimeconfig.cache
 C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\ref\CampusPlacementManagementPlatform.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\CampusPlacementManagementPlatform.sourcelink.json

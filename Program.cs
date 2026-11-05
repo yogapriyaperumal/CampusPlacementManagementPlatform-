@@ -33,6 +33,14 @@ builder.Services.AddScoped<ICollegeRepository, CollegeRepository>();
 // College service registration
 builder.Services.AddScoped<ICollegeService, CollegeService>();
 
+builder.Services.AddScoped<
+    IPlacementOfficerRepository,
+    PlacementOfficerRepository>();
+
+builder.Services.AddScoped<
+    IPlacementOfficerService,
+    PlacementOfficerService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
