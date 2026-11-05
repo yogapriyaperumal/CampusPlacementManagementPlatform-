@@ -1,11 +1,12 @@
 using CampusPlacementManagementPlatform.Data;
 using CampusPlacementManagementPlatform.Models;
+using CampusPlacementManagementPlatform.Respositories.Implementations;
+using CampusPlacementManagementPlatform.Respositories.Interfaces;
+using CampusPlacementManagementPlatform.Service.Implementations;
+using CampusPlacementManagementPlatform.Service.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using CampusPlacementManagementPlatform.Respositories.Interfaces;
-using CampusPlacementManagementPlatform.Respositories.Implementations;
-using CampusPlacementManagementPlatform.Service.Interfaces;
-using CampusPlacementManagementPlatform.Service.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,24 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     IPlacementOfficerService,
     PlacementOfficerService>();
+
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
+builder.Services.AddScoped<
+    ICompanyHRRepository,
+    CompanyHRRepository>();
+
+builder.Services.AddScoped<
+    ICompanyHRService,
+    CompanyHRService>();
+
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+builder.Services.AddScoped<IJobRepository, JobRepository>();
+
+builder.Services.AddScoped<IJobService, JobService>();
 
 var app = builder.Build();
 

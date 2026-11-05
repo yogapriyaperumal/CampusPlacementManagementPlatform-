@@ -15,6 +15,12 @@ namespace CampusPlacementManagementPlatform.Data
         public DbSet<College> Colleges { get; set; }
 
         public DbSet<PlacementOfficer> PlacementOfficers { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyHR> CompanyHRs { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<JobOpening> JobOpenings { get; set; }
+
+        public DbSet<JobTargetCollege> JobTargetColleges { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -71,6 +77,175 @@ namespace CampusPlacementManagementPlatform.Data
                       .WithMany()
                       .HasForeignKey(p => p.ApprovedBy)
                       .OnDelete(DeleteBehavior.Restrict);
+            });
+            builder.Entity<Company>(entity =>
+            {
+                entity.HasKey(c => c.CompanyId);
+
+                entity.Property(c => c.CompanyName)
+                      .IsRequired()
+                      .HasMaxLength(200);
+
+                entity.Property(c => c.CompanyEmail)
+                      .IsRequired()
+                      .HasMaxLength(255);
+
+                entity.Property(c => c.Industry)
+                      .IsRequired()
+                      .HasMaxLength(100);
+
+                entity.Property(c => c.Address)
+                      .IsRequired()
+                      .HasMaxLength(500);
+
+                entity.Property(c => c.Description)
+                      .HasMaxLength(1000);
+            });
+            builder.Entity<CompanyHR>(entity =>
+            {
+                entity.HasKey(h => h.CompanyHRId);
+
+                // One Identity user can have one CompanyHR profile.
+                entity.HasOne(h => h.User)
+                      .WithOne()
+                      .HasForeignKey<CompanyHR>(h => h.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(h => h.UserId)
+                      .IsUnique();
+
+                // One company can have multiple HR representatives.
+                entity.HasOne(h => h.Company)
+                      .WithMany()
+                      .HasForeignKey(h => h.CompanyId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                // References the Identity user who approved the HR.
+                entity.HasOne<ApplicationUser>()
+                      .WithMany()
+                      .HasForeignKey(h => h.ApprovedBy)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.Property(h => h.Designation)
+                      .HasMaxLength(100);
+            });
+            builder.Entity<Student>(entity =>
+            {
+                entity.HasKey(s => s.StudentId);
+
+                // One Identity user can have only one student profile.
+                entity.HasOne(s => s.User)
+                    .WithOne()
+                    .HasForeignKey<Student>(s => s.UserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(s => s.UserId)
+                    .IsUnique();
+
+                // One college can have multiple students.
+                entity.HasOne(s => s.College)
+                    .WithMany()
+                    .HasForeignKey(s => s.CollegeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // One placement officer manages multiple students.
+                entity.HasOne(s => s.PlacementOfficer)
+                    .WithMany()
+                    .HasForeignKey(s => s.PlacementOfficerId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // Register number must be unique within a college.
+                entity.HasIndex(s => new
+                {
+                    s.CollegeId,
+                    s.RegisterNumber
+                }).IsUnique();
+
+                entity.Property(s => s.CGPA)
+                    .HasPrecision(4, 2);
+
+                entity.Property(s => s.RegisterNumber)
+                    .HasMaxLength(30)
+                    .IsRequired();
+
+                entity.Property(s => s.Department)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                entity.Property(s => s.Degree)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                entity.Property(s => s.Status)
+                    .HasConversion<int>();
+            });
+            // JobOpening configuration
+            builder.Entity<JobOpening>(entity =>
+            {
+                entity.HasKey(j => j.JobOpeningId);
+
+                entity.Property(j => j.JobTitle)
+                    .HasMaxLength(200)
+                    .IsRequired();
+
+                entity.Property(j => j.JobDescription)
+                    .HasMaxLength(3000)
+                    .IsRequired();
+
+                entity.Property(j => j.Location)
+                    .HasMaxLength(150)
+                    .IsRequired();
+
+                entity.Property(j => j.EligibleDepartments)
+                    .HasMaxLength(1000)
+                    .IsRequired();
+
+                entity.Property(j => j.SalaryMin)
+                    .HasPrecision(12, 2);
+
+                entity.Property(j => j.SalaryMax)
+                    .HasPrecision(12, 2);
+
+                entity.Property(j => j.MinimumCGPA)
+                    .HasPrecision(4, 2);
+
+                entity.Property(j => j.Status)
+                    .HasConversion<int>();
+
+                entity.Property(j => j.EmploymentType)
+                    .HasConversion<int>();
+
+                entity.HasOne(j => j.Company)
+                    .WithMany()
+                    .HasForeignKey(j => j.CompanyId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(j => j.CreatedByCompanyHR)
+                    .WithMany()
+                    .HasForeignKey(j => j.CreatedByCompanyHRId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+            // JobTargetCollege configuration
+            builder.Entity<JobTargetCollege>(entity =>
+            {
+                entity.HasKey(j => j.JobTargetCollegeId);
+
+                entity.HasOne(j => j.JobOpening)
+                    .WithMany(j => j.TargetColleges)
+                    .HasForeignKey(j => j.JobOpeningId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(j => j.College)
+                    .WithMany()
+                    .HasForeignKey(j => j.CollegeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(j => new
+                {
+                    j.JobOpeningId,
+                    j.CollegeId
+                }).IsUnique();
             });
         }
     }
