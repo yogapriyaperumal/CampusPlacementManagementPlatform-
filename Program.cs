@@ -2,6 +2,10 @@ using CampusPlacementManagementPlatform.Data;
 using CampusPlacementManagementPlatform.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using CampusPlacementManagementPlatform.Respositories.Interfaces;
+using CampusPlacementManagementPlatform.Respositories.Implementations;
+using CampusPlacementManagementPlatform.Service.Interfaces;
+using CampusPlacementManagementPlatform.Service.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +27,11 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager();
+// College repository registration
+builder.Services.AddScoped<ICollegeRepository, CollegeRepository>();
+
+// College service registration
+builder.Services.AddScoped<ICollegeService, CollegeService>();
 
 var app = builder.Build();
 
