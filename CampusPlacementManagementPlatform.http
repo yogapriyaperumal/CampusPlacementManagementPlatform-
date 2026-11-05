@@ -1,0 +1,6 @@
+@CampusPlacementManagementPlatform_HostAddress = http://localhost:5286
+
+GET {{CampusPlacementManagementPlatform_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
