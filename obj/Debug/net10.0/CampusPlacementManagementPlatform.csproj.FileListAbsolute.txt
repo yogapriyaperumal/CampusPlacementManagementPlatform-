@@ -167,3 +167,11 @@ C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlace
 C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\CampusPlacementManagementPlatform.genruntimeconfig.cache
 C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\ref\CampusPlacementManagementPlatform.dll
 C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\obj\Debug\net10.0\CampusPlacementManagementPlatform.sourcelink.json
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\ClosedXML.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\ClosedXML.Parser.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\DocumentFormat.OpenXml.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\ExcelNumberFormat.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\RBush.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\SixLabors.Fonts.dll
+C:\Users\DELL\OneDrive\Desktop\HCL\CampusPlacementManagementPlatform\CampusPlacementManagementPlatform\bin\Debug\net10.0\System.IO.Packaging.dll
