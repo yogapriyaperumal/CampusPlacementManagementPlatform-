@@ -4,6 +4,7 @@ using CampusPlacementManagementPlatform.Respositories.Implementations;
 using CampusPlacementManagementPlatform.Respositories.Interfaces;
 using CampusPlacementManagementPlatform.Service.Implementations;
 using CampusPlacementManagementPlatform.Service.Interfaces;
+using CampusPlacementManagementPlatform.Services.Implementations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -73,6 +74,13 @@ builder.Services.AddScoped<
 builder.Services.AddScoped<
     IRecruitmentDriveService,
     RecruitmentDriveService>();
+builder.Services.AddScoped<
+    IInterviewRoundRepository,
+    InterviewRoundRepository>();
+
+builder.Services.AddScoped<
+    IInterviewRoundService,
+    InterviewRoundService>();
 
 var app = builder.Build();
 

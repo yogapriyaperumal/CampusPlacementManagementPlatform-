@@ -26,6 +26,7 @@ namespace CampusPlacementManagementPlatform.Data
         public DbSet<ApplicationStatusHistory> ApplicationStatusHistories
         { get; set; }
         public DbSet<RecruitmentDrive> RecruitmentDrives { get; set; }
+        public DbSet<InterviewRound> InterviewRounds { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -341,6 +342,40 @@ namespace CampusPlacementManagementPlatform.Data
 
                 entity.HasIndex(rd => rd.JobOpeningId);
                 entity.HasIndex(rd => rd.CompanyId);
+            });
+            builder.Entity<InterviewRound>(entity =>
+            {
+                entity.HasKey(ir => ir.InterviewRoundId);
+
+                entity.Property(ir => ir.RoundName)
+                    .IsRequired()
+                    .HasMaxLength(150);
+
+                entity.Property(ir => ir.Description)
+                    .HasMaxLength(1000);
+
+                entity.Property(ir => ir.RoundType)
+                    .HasConversion<int>();
+
+                entity.Property(ir => ir.Status)
+                    .HasConversion<int>();
+
+                entity.Property(ir => ir.RoundNumber)
+                    .IsRequired();
+
+                entity.Property(ir => ir.DurationMinutes)
+                    .IsRequired();
+
+                entity.HasOne(ir => ir.RecruitmentDrive)
+                    .WithMany()
+                    .HasForeignKey(ir => ir.RecruitmentDriveId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(ir => new
+                {
+                    ir.RecruitmentDriveId,
+                    ir.RoundNumber
+                }).IsUnique();
             });
         }
     }
