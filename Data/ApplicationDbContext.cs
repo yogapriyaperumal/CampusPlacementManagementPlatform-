@@ -21,6 +21,11 @@ namespace CampusPlacementManagementPlatform.Data
         public DbSet<JobOpening> JobOpenings { get; set; }
 
         public DbSet<JobTargetCollege> JobTargetColleges { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
+
+        public DbSet<ApplicationStatusHistory> ApplicationStatusHistories
+        { get; set; }
+        public DbSet<RecruitmentDrive> RecruitmentDrives { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -246,6 +251,96 @@ namespace CampusPlacementManagementPlatform.Data
                     j.JobOpeningId,
                     j.CollegeId
                 }).IsUnique();
+            });
+            // JobApplication configuration
+            builder.Entity<JobApplication>(entity =>
+            {
+                entity.HasKey(a => a.JobApplicationId);
+
+                entity.HasOne(a => a.Student)
+                    .WithMany()
+                    .HasForeignKey(a => a.StudentId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(a => a.JobOpening)
+                    .WithMany()
+                    .HasForeignKey(a => a.JobOpeningId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                // A student can apply only once for the same job.
+                entity.HasIndex(a => new
+                {
+                    a.StudentId,
+                    a.JobOpeningId
+                }).IsUnique();
+
+                entity.Property(a => a.Status)
+                    .HasConversion<int>();
+
+                entity.Property(a => a.CoverLetter)
+                    .HasMaxLength(2000);
+            });
+
+            // ApplicationStatusHistory configuration
+            builder.Entity<ApplicationStatusHistory>(entity =>
+            {
+                entity.HasKey(h => h.ApplicationStatusHistoryId);
+
+                entity.HasOne(h => h.JobApplication)
+                    .WithMany(a => a.StatusHistory)
+                    .HasForeignKey(h => h.JobApplicationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.Property(h => h.PreviousStatus)
+                    .HasConversion<int>();
+
+                entity.Property(h => h.NewStatus)
+                    .HasConversion<int>();
+
+                entity.Property(h => h.Remarks)
+                    .HasMaxLength(1000);
+
+                entity.Property(h => h.UpdatedByUserId)
+                    .HasMaxLength(450);
+            });
+            builder.Entity<RecruitmentDrive>(entity =>
+            {
+                entity.HasKey(rd => rd.RecruitmentDriveId);
+
+                entity.Property(rd => rd.DriveTitle)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(rd => rd.Description)
+                    .HasMaxLength(1000);
+
+                entity.Property(rd => rd.Mode)
+                    .IsRequired()
+                    .HasMaxLength(20);
+
+                entity.Property(rd => rd.VenueOrMeetingLink)
+                    .HasMaxLength(500);
+
+                entity.Property(rd => rd.Status)
+                    .HasConversion<int>();
+
+                entity.HasOne(rd => rd.Company)
+                    .WithMany()
+                    .HasForeignKey(rd => rd.CompanyId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(rd => rd.CompanyHR)
+                    .WithMany()
+                    .HasForeignKey(rd => rd.CompanyHRId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(rd => rd.JobOpening)
+                    .WithMany()
+                    .HasForeignKey(rd => rd.JobOpeningId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasIndex(rd => rd.JobOpeningId);
+                entity.HasIndex(rd => rd.CompanyId);
             });
         }
     }

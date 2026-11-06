@@ -1,6 +1,12 @@
 ﻿namespace CampusPlacementManagementPlatform.Models
 {
-    public class ApplicationStatus
+    public enum ApplicationStatus
     {
+        Applied,
+        UnderReview,
+        Shortlisted,
+        Rejected,
+        Selected,
+        Withdrawn
     }
 }
